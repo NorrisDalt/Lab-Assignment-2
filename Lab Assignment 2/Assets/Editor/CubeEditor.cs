@@ -1,3 +1,4 @@
+using Codice.CM.Common.Merge;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class CubeEditor : Editor
     {
         base.OnInspectorGUI();
 
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Select all Cubes"))
         {
             var allShapes = GameObject.FindObjectsOfType<Cubes>();
@@ -21,6 +23,7 @@ public class CubeEditor : Editor
                 .Select(enemy => enemy.gameObject)
                 .ToArray();
             UnityEditor.Selection.objects = allShapeGameObjects; // Use UnityEditor.Selection
+
         }
 
         if (GUILayout.Button("Select all Spheres"))
@@ -31,5 +34,25 @@ public class CubeEditor : Editor
                 .ToArray();
             UnityEditor.Selection.objects = allShapeGameObjects; // Use UnityEditor.Selection
         }
+        EditorGUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Clear selection"))
+        {
+            UnityEditor.Selection.objects = new UnityEngine.Object[0];
+        }
+
+        Color cachedColor = GUI.backgroundColor; // Cache the current background color
+        GUI.backgroundColor = Color.green;       // Set the button background color 
+
+        if (GUILayout.Button("Disable/Enable all enemy", GUILayout.Height(40)))
+        {
+            foreach (var enemy in GameObject.FindObjectsOfType<Cubes>(true))
+            {
+                enemy.gameObject.SetActive(!enemy.gameObject.activeSelf);
+            }
+        }
+
+        GUI.backgroundColor = cachedColor; // Reset it to original after the button
+
     }
 }
