@@ -13,6 +13,21 @@ public class CubeEditor : Editor
 {
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
+
+        var size = serializedObject.FindProperty("size");
+
+        serializedObject.ApplyModifiedProperties();
+
+        if (size.floatValue > 2.0F)
+        {
+            EditorGUILayout.HelpBox("Size cannot be bigger than 2", MessageType.Warning);
+        }
+        else if (size.floatValue < 1.0f)
+        {
+            EditorGUILayout.HelpBox("Size cannot be smaller than 1", MessageType.Warning);
+        }
+
         base.OnInspectorGUI();
 
         EditorGUILayout.BeginHorizontal();

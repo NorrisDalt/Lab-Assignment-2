@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Spheres : MonoBehaviour
 {
+    [SerializeField] private  float size;
     // Start is called before the first frame update
-    void Start()
+    private void OnValidate()
     {
-        
-    }
+        // Clamp size within expected range (optional)
+        size = Mathf.Clamp(size, 0.01f, 100f);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Apply the size to the GameObject's scale
+        transform.localScale = Vector3.one * size;
     }
 }
